@@ -4,7 +4,12 @@ const cors = require("cors");
 const app = express();
 const path = require("path");
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://placement-readiness-tracker-pi.vercel.app",
+    credentials: true,
+  })
+);
 app.use(express.json());
 const authRoutes = require("./routes/authRoutes");
 const companyRoutes = require("./routes/companyRoutes");
