@@ -6,8 +6,6 @@ const path = require("path");
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.json());
-// Routes
 const authRoutes = require("./routes/authRoutes");
 const companyRoutes = require("./routes/companyRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
