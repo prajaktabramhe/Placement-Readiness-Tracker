@@ -61,7 +61,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[70vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-600"></div>
       </div>
     );
   }
@@ -133,7 +133,7 @@ const Dashboard = () => {
               <span className="text-xs font-bold text-gray-400 uppercase">Preparation Score</span>
               <h2 className="text-3xl font-extrabold text-gray-800 mt-1">{stats.readinessScore}%</h2>
             </div>
-            <span className="text-3xl p-3 bg-indigo-50 rounded-2xl">⚡</span>
+            <span className="text-3xl p-3 bg-amber-50 rounded-2xl">⚡</span>
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-6 flex items-center justify-between">
@@ -141,7 +141,7 @@ const Dashboard = () => {
               <span className="text-xs font-bold text-gray-400 uppercase">Jobs Applied</span>
               <h2 className="text-3xl font-extrabold text-gray-800 mt-1">{stats.totalApplications}</h2>
             </div>
-            <span className="text-3xl p-3 bg-blue-50 rounded-2xl">📝</span>
+            <span className="text-3xl p-3 bg-amber-50 rounded-2xl">📝</span>
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-6 flex items-center justify-between">
@@ -201,7 +201,7 @@ const Dashboard = () => {
                   <div key={int._id} className="flex justify-between items-center bg-gray-50 rounded-xl p-3 border border-gray-100/50">
                     <div>
                       <h4 className="font-bold text-gray-800 text-sm">{int.round}</h4>
-                      <span className="text-xs text-indigo-600 font-semibold">{int.job?.company?.name} • {int.type}</span>
+                      <span className="text-xs text-amber-600 font-semibold">{int.job?.company?.name} • {int.type}</span>
                     </div>
                     <span className="text-xs text-gray-400 font-medium">
                       {new Date(int.date).toLocaleDateString()} {new Date(int.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -233,7 +233,7 @@ const Dashboard = () => {
                   ))}
                 </div>
                 <div className="pt-4 text-center">
-                  <Link to="/profile" className="text-indigo-600 hover:underline text-xs font-bold">
+                  <Link to="/profile" className="text-amber-600 hover:underline text-xs font-bold">
                     ✏️ Update profile skills list →
                   </Link>
                 </div>
@@ -299,7 +299,7 @@ const Dashboard = () => {
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-6">
             <span className="text-xs font-bold text-gray-400 uppercase block">Interviews Scheduled (7d)</span>
-            <h2 className="text-3xl font-extrabold text-indigo-600 mt-1">{stats.interviewsThisWeekCount}</h2>
+            <h2 className="text-3xl font-extrabold text-amber-600 mt-1">{stats.interviewsThisWeekCount}</h2>
           </div>
         </div>
 
@@ -380,7 +380,7 @@ const Dashboard = () => {
                           <span className="font-semibold block">{int.job?.company?.name}</span>
                           <span className="text-gray-400">{int.job?.title}</span>
                         </td>
-                        <td className="px-4 py-3 capitalize font-medium text-indigo-600">{int.round} ({int.type})</td>
+                        <td className="px-4 py-3 capitalize font-medium text-amber-600">{int.round} ({int.type})</td>
                         <td className="px-4 py-3 text-gray-500">{new Date(int.date).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}</td>
                       </tr>
                     ))}
@@ -447,7 +447,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-6">
             <span className="text-xs font-bold text-gray-400 uppercase block">Overall Placed Conversion Rate</span>
-            <h2 className="text-3xl font-extrabold text-indigo-600 mt-1">{stats.placementRate}%</h2>
+            <h2 className="text-3xl font-extrabold text-amber-600 mt-1">{stats.placementRate}%</h2>
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-6">

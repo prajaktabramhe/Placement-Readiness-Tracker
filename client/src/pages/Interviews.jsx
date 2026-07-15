@@ -162,7 +162,7 @@ const Interviews = () => {
       case "On Hold":
         return "bg-yellow-50 border-yellow-200 text-yellow-600";
       default:
-        return "bg-blue-50 border-blue-200 text-blue-600";
+        return "bg-amber-50 border-amber-200 text-amber-700";
     }
   };
 
@@ -181,7 +181,7 @@ const Interviews = () => {
         {role !== "student" && (
           <button
             onClick={() => setShowScheduleModal(true)}
-            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer font-sans"
+            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-amber-600 hover:from-blue-700 hover:to-amber-700 text-white font-bold rounded-xl shadow-lg shadow-amber-600/20 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer font-sans"
           >
             + Schedule Round
           </button>
@@ -191,7 +191,7 @@ const Interviews = () => {
       {/* Grid of Interview rounds */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-amber-600"></div>
         </div>
       ) : interviews.length === 0 ? (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-10 text-center">
@@ -236,7 +236,7 @@ const Interviews = () => {
                   )}
                   <div>
                     <span className="text-gray-400 font-bold uppercase block">Company</span>
-                    <span className="text-indigo-600 font-bold">{interview.job?.company?.name}</span>
+                    <span className="text-amber-600 font-bold">{interview.job?.company?.name}</span>
                   </div>
                   <div>
                     <span className="text-gray-400 font-bold uppercase block">Job Position</span>
@@ -256,7 +256,7 @@ const Interviews = () => {
                     {interview.score !== undefined && (
                       <div className="flex items-center gap-2">
                         <span className="text-xs text-gray-400 font-bold uppercase">Evaluator Rating:</span>
-                        <span className="text-sm font-extrabold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-lg">
+                        <span className="text-sm font-extrabold text-amber-600 bg-amber-50 border border-amber-100 px-2.5 py-0.5 rounded-lg">
                           ★ {interview.score}/10
                         </span>
                       </div>
@@ -277,7 +277,7 @@ const Interviews = () => {
                 <div className="flex gap-2.5 mt-6 pt-4 border-t border-gray-50 justify-end">
                   <button
                     onClick={() => openResultModal(interview)}
-                    className="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-200 font-bold rounded-xl text-xs cursor-pointer"
+                    className="px-4 py-2 bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200 font-bold rounded-xl text-xs cursor-pointer"
                   >
                     📝 Log Score & Result
                   </button>
@@ -361,7 +361,7 @@ const Interviews = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
+                  className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
                 >
                   Confirm Schedule
                 </button>
@@ -431,7 +431,7 @@ const Interviews = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm cursor-pointer"
+                  className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm cursor-pointer"
                 >
                   Log Result
                 </button>
@@ -445,3 +445,4 @@ const Interviews = () => {
 };
 
 export default Interviews;
+

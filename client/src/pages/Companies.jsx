@@ -134,7 +134,7 @@ const Companies = () => {
         {role !== "student" && (
           <button
             onClick={() => setShowFormModal(true)}
-            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer font-sans"
+            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-amber-600 hover:from-blue-700 hover:to-amber-700 text-white font-bold rounded-xl shadow-lg shadow-amber-600/20 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer font-sans"
           >
             + Register Recruiter
           </button>
@@ -148,13 +148,13 @@ const Companies = () => {
           placeholder="🔍 Search company name, profile, or location..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="md:col-span-2 p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="md:col-span-2 p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         />
 
         <select
           value={hiringStatusFilter}
           onChange={(e) => setHiringStatusFilter(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         >
           <option value="All">All Hiring Statuses</option>
           <option value="Hiring">Hiring</option>
@@ -166,7 +166,7 @@ const Companies = () => {
       {/* Grid of Companies */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-amber-600"></div>
         </div>
       ) : filteredCompanies.length === 0 ? (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-10 text-center">
@@ -194,7 +194,7 @@ const Companies = () => {
                             href={company.website}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-indigo-600 hover:underline"
+                            className="text-amber-600 hover:underline"
                           >
                             Website link
                           </a>
@@ -320,7 +320,7 @@ const Companies = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
+                  className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
                 >
                   Save Recruiter Profile
                 </button>
@@ -334,3 +334,4 @@ const Companies = () => {
 };
 
 export default Companies;
+

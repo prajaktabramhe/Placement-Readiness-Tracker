@@ -55,7 +55,7 @@ export default function Register() {
               placeholder="Enter your name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-150 text-sm"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-150 text-sm"
               required
             />
           </div>
@@ -70,7 +70,7 @@ export default function Register() {
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-150 text-sm"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-150 text-sm"
               required
             />
           </div>
@@ -85,7 +85,7 @@ export default function Register() {
               placeholder="Create a password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-150 text-sm"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-150 text-sm"
               required
             />
           </div>
@@ -98,7 +98,7 @@ export default function Register() {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-3 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-150 text-sm"
+              className="w-full border border-gray-300 rounded-lg p-3 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-150 text-sm"
             >
               <option value="student">Student</option>
               <option value="mentor">Mentor / Coordinator</option>
@@ -108,7 +108,7 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-bold shadow-md transition duration-150 cursor-pointer text-sm"
+            className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg font-bold shadow-md transition duration-150 cursor-pointer text-sm"
           >
             Register
           </button>
@@ -118,7 +118,7 @@ export default function Register() {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-emerald-600 font-bold hover:underline transition"
+            className="text-amber-600 font-bold hover:underline transition"
           >
             Login
           </Link>

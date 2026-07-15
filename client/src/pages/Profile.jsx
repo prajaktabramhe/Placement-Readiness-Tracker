@@ -145,7 +145,7 @@ const Profile = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[70vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-600"></div>
       </div>
     );
   }
@@ -190,7 +190,7 @@ const Profile = () => {
               {/* Simple Circular Progress representation using borders */}
               <div className="absolute inset-0 rounded-full border-8 border-gray-100"></div>
               <div 
-                className={`absolute inset-0 rounded-full border-8 border-indigo-600 transition-all duration-700`}
+                className={`absolute inset-0 rounded-full border-8 border-amber-600 transition-all duration-700`}
                 style={{
                   clipPath: `polygon(50% 50%, 50% 0%, ${profile.readinessScore >= 25 ? "100% 0%," : ""} ${profile.readinessScore >= 50 ? "100% 100%," : ""} ${profile.readinessScore >= 75 ? "0% 100%," : ""} ${profile.readinessScore === 100 ? "0% 0%," : ""} 50% 0%)`
                 }}
@@ -250,7 +250,7 @@ const Profile = () => {
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition duration-200 cursor-pointer ${
                   editMode
                     ? "bg-gray-100 hover:bg-gray-200 text-gray-600"
-                    : "bg-indigo-50 hover:bg-indigo-100 text-indigo-600"
+                    : "bg-amber-50 hover:bg-amber-100 text-amber-600"
                 }`}
               >
                 {editMode ? "Cancel" : "✏️ Edit Details"}
@@ -267,7 +267,7 @@ const Profile = () => {
                       placeholder="e.g. +91 9876543210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                      className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                     />
                   </div>
                   <div>
@@ -275,7 +275,7 @@ const Profile = () => {
                     <select
                       value={preferredRole}
                       onChange={(e) => setPreferredRole(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                      className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                     >
                       <option value="">Select Role</option>
                       <option value="Frontend Developer">Frontend Developer</option>
@@ -297,7 +297,7 @@ const Profile = () => {
                         placeholder="e.g. B.Tech"
                         value={education.degree}
                         onChange={(e) => setEducation({ ...education, degree: e.target.value })}
-                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                       />
                     </div>
                     <div>
@@ -307,7 +307,7 @@ const Profile = () => {
                         placeholder="e.g. CSE"
                         value={education.branch}
                         onChange={(e) => setEducation({ ...education, branch: e.target.value })}
-                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                       />
                     </div>
                     <div>
@@ -318,7 +318,7 @@ const Profile = () => {
                         placeholder="e.g. 9.1"
                         value={education.gpa}
                         onChange={(e) => setEducation({ ...education, gpa: e.target.value })}
-                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                       />
                     </div>
                     <div>
@@ -328,7 +328,7 @@ const Profile = () => {
                         placeholder="e.g. 2026"
                         value={education.graduationYear}
                         onChange={(e) => setEducation({ ...education, graduationYear: e.target.value })}
-                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                       />
                     </div>
                   </div>
@@ -344,7 +344,7 @@ const Profile = () => {
                         placeholder="e.g. Drive / Dropbox URL"
                         value={resume}
                         onChange={(e) => setResume(e.target.value)}
-                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                       />
                     </div>
                     <div>
@@ -354,7 +354,7 @@ const Profile = () => {
                         placeholder="linkedin.com/in/user"
                         value={linkedin}
                         onChange={(e) => setLinkedin(e.target.value)}
-                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                       />
                     </div>
                     <div>
@@ -364,7 +364,7 @@ const Profile = () => {
                         placeholder="github.com/user"
                         value={github}
                         onChange={(e) => setGithub(e.target.value)}
-                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+                        className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200"
                       />
                     </div>
                   </div>
@@ -373,7 +373,7 @@ const Profile = () => {
                 <div className="flex justify-end gap-2 pt-2">
                   <button
                     type="submit"
-                    className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl transition duration-200 transform hover:-translate-y-0.5 cursor-pointer"
+                    className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-amber-600 hover:from-blue-700 hover:to-amber-700 text-white font-bold rounded-xl transition duration-200 transform hover:-translate-y-0.5 cursor-pointer"
                   >
                     Save Academic Info
                   </button>
@@ -427,7 +427,7 @@ const Profile = () => {
                     )}
 
                     {profile.linkedin ? (
-                      <a href={profile.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition">
+                      <a href={profile.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition">
                         🔗 LinkedIn Connect
                       </a>
                     ) : (
@@ -460,7 +460,7 @@ const Profile = () => {
                   placeholder="e.g. React, Python"
                   value={skillName}
                   onChange={(e) => setSkillName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm"
                 />
               </div>
               
@@ -469,7 +469,7 @@ const Profile = () => {
                 <select
                   value={skillCategory}
                   onChange={(e) => setSkillCategory(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm"
                 >
                   <option value="Frontend">Frontend</option>
                   <option value="Backend">Backend</option>
@@ -486,7 +486,7 @@ const Profile = () => {
                 <select
                   value={skillLevel}
                   onChange={(e) => setSkillLevel(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm"
                 >
                   <option value="Beginner">Beginner (5 pts)</option>
                   <option value="Intermediate">Intermediate (10 pts)</option>
@@ -497,7 +497,7 @@ const Profile = () => {
 
               <button
                 type="submit"
-                className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold shadow-md shadow-indigo-600/15 cursor-pointer"
+                className="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-sm font-bold shadow-md shadow-amber-600/15 cursor-pointer"
               >
                 + Add Skill
               </button>
@@ -518,7 +518,7 @@ const Profile = () => {
                           <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-bold">
                             {skill.category}
                           </span>
-                          <span className="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full font-bold">
+                          <span className="text-[10px] bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full font-bold">
                             {skill.level}
                           </span>
                         </div>
@@ -544,3 +544,4 @@ const Profile = () => {
 };
 
 export default Profile;
+

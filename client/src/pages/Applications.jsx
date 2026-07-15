@@ -120,7 +120,7 @@ const Applications = () => {
   const statusColor = (status) => {
     switch (status) {
       case "Applied":
-        return "bg-blue-50 text-blue-700 border-blue-200";
+        return "bg-amber-50 text-blue-700 border-amber-200";
       case "Shortlisted":
         return "bg-purple-50 text-purple-700 border-purple-200";
       case "Assessment Scheduled":
@@ -128,7 +128,7 @@ const Applications = () => {
         return "bg-yellow-50 text-yellow-700 border-yellow-200";
       case "Interview Scheduled":
       case "Interview Completed":
-        return "bg-indigo-50 text-indigo-700 border-indigo-200";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "Offer Received":
         return "bg-green-50 text-green-700 border-green-200";
       case "Rejected":
@@ -174,7 +174,7 @@ const Applications = () => {
             placeholder="🔍 Search Student Name..."
             value={studentSearch}
             onChange={(e) => setStudentSearch(e.target.value)}
-            className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
           />
         )}
         <input
@@ -182,19 +182,19 @@ const Applications = () => {
           placeholder="🔍 Search Company..."
           value={companySearch}
           onChange={(e) => setCompanySearch(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         />
         <input
           type="text"
           placeholder="🔍 Search Job Role..."
           value={roleSearch}
           onChange={(e) => setRoleSearch(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         >
           <option value="All">All Statuses</option>
           <option value="Applied">Applied</option>
@@ -212,7 +212,7 @@ const Applications = () => {
       {/* Applications Table / Cards */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-amber-600"></div>
         </div>
       ) : filteredApps.length === 0 ? (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-10 text-center">
@@ -241,7 +241,7 @@ const Applications = () => {
                       <td className="px-6 py-4">
                         <div>
                           <h4 className="font-bold text-gray-800">{app.student?.name}</h4>
-                          <span className="text-xs text-indigo-600 font-semibold">Ready Score: {app.student?.readinessScore}%</span>
+                          <span className="text-xs text-amber-600 font-semibold">Ready Score: {app.student?.readinessScore}%</span>
                         </div>
                       </td>
                     )}
@@ -269,7 +269,7 @@ const Applications = () => {
                               setSelectedApp(app);
                               openStatusEdit(app);
                             }}
-                            className="px-3.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-bold rounded-lg text-xs cursor-pointer"
+                            className="px-3.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 font-bold rounded-lg text-xs cursor-pointer"
                           >
                             ✏️ Update Status
                           </button>
@@ -317,7 +317,7 @@ const Applications = () => {
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-gray-400 uppercase">Company</span>
-                    <h4 className="font-bold text-indigo-600 mt-0.5">{selectedApp.job?.company?.name}</h4>
+                    <h4 className="font-bold text-amber-600 mt-0.5">{selectedApp.job?.company?.name}</h4>
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-gray-400 uppercase">Work Mode</span>
@@ -336,11 +336,11 @@ const Applications = () => {
                 {/* Timeline Visual Progress */}
                 <div className="space-y-4">
                   <h3 className="font-bold text-gray-800 text-sm uppercase tracking-wider">Application Journey Timeline</h3>
-                  <div className="relative border-l border-indigo-100 ml-3 pl-5 space-y-5">
+                  <div className="relative border-l border-amber-100 ml-3 pl-5 space-y-5">
                     {selectedApp.timeline?.map((step, idx) => (
                       <div key={idx} className="relative">
                         {/* Dot */}
-                        <div className="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-indigo-600 border-2 border-white ring-4 ring-indigo-50"></div>
+                        <div className="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-amber-600 border-2 border-white ring-4 ring-amber-50"></div>
                         <div>
                           <div className="flex justify-between items-center text-xs">
                             <span className="font-bold text-gray-800">{step.status}</span>
@@ -362,7 +362,7 @@ const Applications = () => {
                   </div>
                   <div>
                     <span className="text-xs font-bold text-gray-400 uppercase">Mentor notes</span>
-                    <p className="text-gray-600 text-xs mt-1 bg-indigo-50/50 rounded-xl p-3 border border-indigo-100/50 leading-relaxed">
+                    <p className="text-gray-600 text-xs mt-1 bg-amber-50/50 rounded-xl p-3 border border-amber-100/50 leading-relaxed">
                       {selectedApp.mentorNotes || "No notes added by mentor yet."}
                     </p>
                   </div>
@@ -401,7 +401,7 @@ const Applications = () => {
                     <span className="text-[10px] font-bold text-gray-400 uppercase">Applicant links</span>
                     <div className="flex flex-col gap-1.5">
                       {selectedApp.student?.resume ? (
-                        <a href={selectedApp.student.resume} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs font-bold">
+                        <a href={selectedApp.student.resume} target="_blank" rel="noreferrer" className="text-amber-600 hover:underline text-xs font-bold">
                           📄 Open Resume Profile
                         </a>
                       ) : (
@@ -409,7 +409,7 @@ const Applications = () => {
                       )}
 
                       {selectedApp.student?.linkedin && (
-                        <a href={selectedApp.student.linkedin} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline text-xs font-bold">
+                        <a href={selectedApp.student.linkedin} target="_blank" rel="noreferrer" className="text-amber-700 hover:underline text-xs font-bold">
                           🔗 LinkedIn Profile
                         </a>
                       )}
@@ -438,7 +438,7 @@ const Applications = () => {
                   onClick={() => {
                     openStatusEdit(selectedApp);
                   }}
-                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm cursor-pointer"
+                  className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm cursor-pointer"
                 >
                   ✏️ Update Progress
                 </button>
@@ -521,7 +521,7 @@ const Applications = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm cursor-pointer"
+                  className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm cursor-pointer"
                 >
                   Save Progress
                 </button>
@@ -535,3 +535,4 @@ const Applications = () => {
 };
 
 export default Applications;
+

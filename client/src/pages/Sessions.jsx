@@ -151,7 +151,7 @@ const Sessions = () => {
       case "Cancelled":
         return "bg-red-50 text-red-700 border-red-200";
       default:
-        return "bg-blue-50 text-blue-700 border-blue-200";
+        return "bg-amber-50 text-blue-700 border-amber-200";
     }
   };
 
@@ -170,7 +170,7 @@ const Sessions = () => {
         {role !== "student" && (
           <button
             onClick={() => setShowScheduleModal(true)}
-            className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition duration-150 cursor-pointer text-sm font-sans"
+            className="px-5 py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow transition duration-150 cursor-pointer text-sm font-sans"
           >
             + Schedule Session
           </button>
@@ -180,7 +180,7 @@ const Sessions = () => {
       {/* Sessions Directory */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-amber-600"></div>
         </div>
       ) : sessions.length === 0 ? (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-10 text-center">
@@ -246,7 +246,7 @@ const Sessions = () => {
                 <div className="flex gap-2 mt-6 pt-4 border-t border-gray-100 justify-end">
                   <button
                     onClick={() => openNotesModal(session)}
-                    className="px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-bold rounded-lg text-xs cursor-pointer"
+                    className="px-3.5 py-1.5 bg-amber-50 hover:bg-blue-100 text-amber-700 border border-amber-200 font-bold rounded-lg text-xs cursor-pointer"
                   >
                     📝 Log Notes & Status
                   </button>
@@ -336,7 +336,7 @@ const Sessions = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm cursor-pointer"
+                  className="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm cursor-pointer"
                 >
                   Schedule Meeting
                 </button>
@@ -392,7 +392,7 @@ const Sessions = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm cursor-pointer"
+                  className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm cursor-pointer"
                 >
                   Log Session
                 </button>
@@ -406,3 +406,4 @@ const Sessions = () => {
 };
 
 export default Sessions;
+

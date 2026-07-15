@@ -83,13 +83,13 @@ const AdminUsers = () => {
           placeholder="🔍 Search users by name or email address..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="md:col-span-2 p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="md:col-span-2 p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         />
 
         <select
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         >
           <option value="All">All User Roles</option>
           <option value="student">Students</option>
@@ -101,7 +101,7 @@ const AdminUsers = () => {
       {/* Users Table */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-amber-600"></div>
         </div>
       ) : filteredUsers.length === 0 ? (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-10 text-center">
@@ -125,7 +125,7 @@ const AdminUsers = () => {
                 {filteredUsers.map((u) => (
                   <tr key={u._id} className="hover:bg-gray-50/50 transition">
                     <td className="px-6 py-4 font-bold text-gray-800 flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center font-bold uppercase text-indigo-600 text-xs">
+                      <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center font-bold uppercase text-amber-600 text-xs">
                         {u.name?.charAt(0)}
                       </div>
                       <span>{u.name}</span>
@@ -140,7 +140,7 @@ const AdminUsers = () => {
                         <select
                           value={u.role}
                           onChange={(e) => handleRoleChange(u._id, e.target.value)}
-                          className="border rounded-xl px-3 py-1.5 bg-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="border rounded-xl px-3 py-1.5 bg-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500"
                         >
                           <option value="student">Student</option>
                           <option value="mentor">Mentor</option>
@@ -170,3 +170,4 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
+

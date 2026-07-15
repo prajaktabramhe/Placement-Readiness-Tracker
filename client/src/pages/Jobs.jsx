@@ -256,7 +256,7 @@ const Jobs = () => {
         {role !== "student" && (
           <button
             onClick={() => setShowFormModal(true)}
-            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer"
+            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-amber-600 hover:from-blue-700 hover:to-amber-700 text-white font-bold rounded-xl shadow-lg shadow-amber-600/20 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer"
           >
             + Publish New Job
           </button>
@@ -270,13 +270,13 @@ const Jobs = () => {
           placeholder="🔍 Search title, company, skills, or location..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="md:col-span-1 p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="md:col-span-1 p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         />
 
         <select
           value={workMode}
           onChange={(e) => setWorkMode(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         >
           <option value="All">All Work Modes</option>
           <option value="Remote">Remote</option>
@@ -287,7 +287,7 @@ const Jobs = () => {
         <select
           value={jobType}
           onChange={(e) => setJobType(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         >
           <option value="All">All Job Types</option>
           <option value="Full-Time">Full-Time</option>
@@ -298,7 +298,7 @@ const Jobs = () => {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
         >
           <option value="All">All Statuses</option>
           <option value="Active">Active</option>
@@ -329,12 +329,12 @@ const Jobs = () => {
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800 tracking-tight">{job.title}</h2>
                     <div className="flex gap-4 items-center text-sm text-gray-500 mt-1 flex-wrap">
-                      <span className="font-semibold text-indigo-600">🏢 {job.company?.name}</span>
+                      <span className="font-semibold text-amber-600">🏢 {job.company?.name}</span>
                       <span>📍 {job.location || "Location Not Specified"}</span>
                       <span className="capitalize px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
                         {job.workMode}
                       </span>
-                      <span className="capitalize px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-600">
+                      <span className="capitalize px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-600">
                         {job.jobType}
                       </span>
                     </div>
@@ -457,7 +457,7 @@ const Jobs = () => {
                             setShowApplyModal(true);
                           }}
                           disabled={job.status !== "Active"}
-                          className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-200 text-white font-bold rounded-xl text-sm shadow-md shadow-indigo-600/10 cursor-pointer"
+                          className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-200 text-white font-bold rounded-xl text-sm shadow-md shadow-amber-600/10 cursor-pointer"
                         >
                           {job.status === "Active" ? "Apply to Job" : "Inactive"}
                         </button>
@@ -641,7 +641,7 @@ const Jobs = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
+                  className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
                 >
                   Save Job Opening
                 </button>
@@ -657,7 +657,7 @@ const Jobs = () => {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
             <h2 className="text-xl font-bold text-gray-800 mb-2">Submit Application</h2>
             <p className="text-gray-500 text-sm mb-4">
-              Applying for <span className="font-bold text-indigo-600">{applyingJob?.title}</span> at <span className="font-bold text-gray-800">{applyingJob?.company?.name}</span>.
+              Applying for <span className="font-bold text-amber-600">{applyingJob?.title}</span> at <span className="font-bold text-gray-800">{applyingJob?.company?.name}</span>.
             </p>
 
             <form onSubmit={handleApplySubmit} className="space-y-4">
@@ -686,7 +686,7 @@ const Jobs = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm cursor-pointer"
+                  className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm cursor-pointer"
                 >
                   Confirm Submission
                 </button>
@@ -700,3 +700,4 @@ const Jobs = () => {
 };
 
 export default Jobs;
+

@@ -17,8 +17,8 @@ const Sidebar = () => {
   const linkStyle = (path) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition duration-200 ${
       isActive(path)
-        ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/35"
-        : "text-gray-600 hover:bg-gray-100 hover:text-emerald-600"
+        ? "bg-amber-600 text-white shadow-lg shadow-amber-600/35"
+        : "text-gray-600 hover:bg-gray-100 hover:text-amber-600"
     }`;
 
   return (
@@ -26,7 +26,7 @@ const Sidebar = () => {
       <div className="flex flex-col gap-8">
         {/* Brand Logo */}
         <div className="flex items-center gap-2">
-          <div className="bg-gradient-to-tr from-emerald-500 to-teal-600 p-2.5 rounded-xl text-white font-bold text-xl shadow-md shadow-emerald-600/20">
+          <div className="bg-gradient-to-tr from-amber-500 to-amber-700 p-2.5 rounded-xl text-white font-bold text-xl shadow-md shadow-amber-600/20">
             PR
           </div>
           <div>
@@ -37,12 +37,12 @@ const Sidebar = () => {
 
         {/* User Card */}
         <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold uppercase text-lg">
+          <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold uppercase text-lg">
             {user?.name?.charAt(0) || "U"}
           </div>
           <div className="overflow-hidden">
             <h4 className="font-bold text-gray-800 text-sm truncate">{user?.name}</h4>
-            <span className="inline-block px-2.5 py-0.5 mt-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-100/50 uppercase leading-tight tracking-wider">
+            <span className="inline-block px-2.5 py-0.5 mt-1 rounded-full text-xs font-bold bg-amber-50 text-amber-600 border border-amber-100/50 uppercase leading-tight tracking-wider">
               {role}
             </span>
           </div>
@@ -134,3 +134,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
