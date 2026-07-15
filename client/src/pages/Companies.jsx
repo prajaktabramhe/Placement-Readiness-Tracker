@@ -275,7 +275,7 @@ const Companies = () => {
                           </span>
 
                           <a
-                            href={`http://localhost:5000/uploads/${company.resume}`}
+                           href={`https://placement-readiness-tracker-7gt3.onrender.com/uploads/${company.resume}`}
                             target="_blank"
                             rel="noreferrer"
                             className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm"
