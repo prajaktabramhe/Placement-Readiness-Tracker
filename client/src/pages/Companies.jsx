@@ -1,382 +1,335 @@
-import { useEffect, useState } from "react";
-import CompanyForm from "../components/company/CompanyForm";
-import Navbar from "../components/Navbar";
-import {
-  getCompanies,
-  addCompany,
-  updateCompany,
-  deleteCompany,
-} from "../services/companyService";
+import { useState, useEffect } from "react";
+import API from "../api/axios";
 import { toast } from "react-toastify";
-import DeleteModal from "../components/DeleteModal";
-import { uploadResume } from "../services/resumeService";
 
 const Companies = () => {
-  const [companies, setCompanies] = useState([]);
-  const [filteredCompanies, setFilteredCompanies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [editingCompany, setEditingCompany] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role || "student";
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const companiesPerPage = 5;
+  const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [hiringStatusFilter, setHiringStatusFilter] = useState("All");
+
+  // Form states
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [editingCompany, setEditingCompany] = useState(null);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [website, setWebsite] = useState("");
+  const [location, setLocation] = useState("");
+  const [hiringStatus, setHiringStatus] = useState("Hiring");
 
   useEffect(() => {
     fetchCompanies();
   }, []);
 
-  useEffect(() => {
-    let filtered = companies;
-
-    // Search
-    filtered = filtered.filter((company) =>
-      company.companyName.toLowerCase().includes(search.toLowerCase()),
-    );
-
-    // Status Filter
-    if (statusFilter !== "All") {
-      filtered = filtered.filter((company) => company.status === statusFilter);
-    }
-
-    setFilteredCompanies(filtered);
-
-    // Reset page whenever search/filter changes
-    setCurrentPage(1);
-  }, [search, statusFilter, companies]);
-
   const fetchCompanies = async () => {
     try {
       setLoading(true);
-
-      const response = await getCompanies();
-
-      setCompanies(response.companies);
-      setFilteredCompanies(response.companies);
+      const response = await API.get("/company");
+      if (response.data.success) {
+        setCompanies(response.data.companies);
+      }
     } catch (error) {
       console.error("Error fetching companies:", error);
+      toast.error("Failed to load company directory");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSaveCompany = async (companyData) => {
+  const handleSaveCompany = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      return toast.warning("Company name is required");
+    }
+
     try {
+      const payload = {
+        name: name.trim(),
+        description: description.trim(),
+        website: website.trim(),
+        location: location.trim(),
+        hiringStatus,
+      };
+
       if (editingCompany) {
-        await updateCompany(editingCompany._id, companyData);
-        toast.success("Company updated successfully!");
+        const response = await API.put(`/company/${editingCompany._id}`, payload);
+        if (response.data.success) {
+          toast.success("Company profile updated successfully!");
+          fetchCompanies();
+          closeFormModal();
+        }
       } else {
-        await addCompany(companyData);
-        toast.success("Company added successfully!");
+        const response = await API.post("/company", payload);
+        if (response.data.success) {
+          toast.success("New company profile added!");
+          fetchCompanies();
+          closeFormModal();
+        }
       }
-
-      setShowForm(false);
-      setEditingCompany(null);
-
-      fetchCompanies();
     } catch (error) {
       console.error(error);
-      toast.error("Operation failed!");
+      toast.error(error.response?.data?.message || "Operation failed");
     }
   };
 
-  const handleEditCompany = (company) => {
+  const handleEditClick = (company) => {
     setEditingCompany(company);
-    setShowForm(true);
+    setName(company.name || "");
+    setDescription(company.description || "");
+    setWebsite(company.website || "");
+    setLocation(company.location || "");
+    setHiringStatus(company.hiringStatus || "Hiring");
+    setShowFormModal(true);
   };
 
-  const handleDeleteCompany = (company) => {
-    setSelectedCompany(company);
-    setDeleteModalOpen(true);
-  };
-  const confirmDelete = async () => {
+  const handleDeleteClick = async (companyId) => {
+    if (!window.confirm("Are you sure you want to delete this company? All active job postings linked to it will also be affected.")) return;
+
     try {
-      await deleteCompany(selectedCompany._id);
-
-      toast.success("Company deleted successfully!");
-
-      setDeleteModalOpen(false);
-      setSelectedCompany(null);
-
-      fetchCompanies();
+      const response = await API.delete(`/company/${companyId}`);
+      if (response.data.success) {
+        toast.success("Company profile removed from registry");
+        fetchCompanies();
+      }
     } catch (error) {
       console.error(error);
-      toast.error("Delete failed!");
+      toast.error(error.response?.data?.message || "Delete failed");
     }
   };
 
-  const statusColor = (status) => {
-    switch (status) {
-      case "Applied":
-        return "bg-blue-100 text-blue-700";
-
-      case "Interview":
-        return "bg-yellow-100 text-yellow-700";
-
-      case "Selected":
-        return "bg-green-100 text-green-700";
-
-      case "Rejected":
-        return "bg-red-100 text-red-700";
-
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
+  const closeFormModal = () => {
+    setShowFormModal(false);
+    setEditingCompany(null);
+    setName("");
+    setDescription("");
+    setWebsite("");
+    setLocation("");
+    setHiringStatus("Hiring");
   };
 
-  // Pagination Logic
-  const indexOfLastCompany = currentPage * companiesPerPage;
-  const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
+  // Filter list
+  const filteredCompanies = companies.filter((c) => {
+    const searchString = search.toLowerCase();
+    const nameMatch = c.name?.toLowerCase().includes(searchString);
+    const descMatch = c.description?.toLowerCase().includes(searchString);
+    const locMatch = c.location?.toLowerCase().includes(searchString);
+    
+    const matchesSearch = nameMatch || descMatch || locMatch;
+    const matchesStatus = hiringStatusFilter === "All" || c.hiringStatus === hiringStatusFilter;
 
-  const currentCompanies = filteredCompanies.slice(
-    indexOfFirstCompany,
-    indexOfLastCompany,
-  );
-
-  const totalPages = Math.ceil(filteredCompanies.length / companiesPerPage);
-
-  const handleResumeUpload = async (companyId, file) => {
-    try {
-      await uploadResume(companyId, file);
-
-      toast.success("Resume uploaded successfully!");
-
-      fetchCompanies();
-    } catch (error) {
-      console.error(error);
-
-      toast.error("Resume upload failed!");
-    }
-  };
+    return matchesSearch && matchesStatus;
+  });
 
   return (
-    <>
-      <Navbar />
+    <div className="space-y-8 animate-fadeIn">
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-4xl font-extrabold text-gray-800 tracking-tight font-sans">Company Registry</h1>
+          <p className="text-gray-500 mt-2">Manage hiring profiles of registered recruiters and target companies.</p>
+        </div>
+        {role !== "student" && (
+          <button
+            onClick={() => setShowFormModal(true)}
+            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer font-sans"
+          >
+            + Register Recruiter
+          </button>
+        )}
+      </div>
 
-      <div className="min-h-screen bg-gray-100 p-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
+      {/* Filter panel */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <input
+          type="text"
+          placeholder="🔍 Search company name, profile, or location..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="md:col-span-2 p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        />
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
-            <h1 className="text-4xl font-bold text-gray-800">
-              Company Management
-            </h1>
+        <select
+          value={hiringStatusFilter}
+          onChange={(e) => setHiringStatusFilter(e.target.value)}
+          className="p-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        >
+          <option value="All">All Hiring Statuses</option>
+          <option value="Hiring">Hiring</option>
+          <option value="Not Hiring">Not Hiring</option>
+          <option value="On Hold">On Hold</option>
+        </select>
+      </div>
 
-            <button
-              onClick={() => {
-                setEditingCompany(null);
-                setShowForm(true);
-              }}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow"
+      {/* Grid of Companies */}
+      {loading ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+        </div>
+      ) : filteredCompanies.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-10 text-center">
+          <span className="text-4xl">🏢</span>
+          <h3 className="font-bold text-gray-800 text-xl mt-3">No companies registered</h3>
+          <p className="text-gray-400 text-sm mt-1">Try modifying your filters or register a new company profile.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredCompanies.map((company) => (
+            <div
+              key={company._id}
+              className="bg-white rounded-2xl border border-gray-100 shadow-md p-6 hover:shadow-xl transition duration-300 flex flex-col justify-between"
             >
-              + Add Company
-            </button>
-          </div>
-
-          {/* Search + Filter */}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <input
-              type="text"
-              placeholder="🔍 Search company..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="p-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500"
-            />
-
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="p-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="All">All Status</option>
-              <option value="Applied">Applied</option>
-              <option value="Interview">Interview</option>
-              <option value="Selected">Selected</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-          </div>
-
-          {/* Form */}
-
-          {showForm && (
-            <CompanyForm
-              initialData={editingCompany}
-              onSubmit={handleSaveCompany}
-              onCancel={() => {
-                setShowForm(false);
-                setEditingCompany(null);
-              }}
-            />
-          )}
-
-          {/* Loading */}
-
-          {loading ? (
-            <div className="text-center text-xl font-semibold py-20">
-              Loading...
-            </div>
-          ) : filteredCompanies.length === 0 ? (
-            <div className="bg-white rounded-xl shadow-md p-10 text-center">
-              <h2 className="text-2xl font-semibold text-gray-700">
-                No Companies Found
-              </h2>
-            </div>
-          ) : (
-            <>
-              <div className="grid gap-5">
-                {currentCompanies.map((company) => (
-                  <div
-                    key={company._id}
-                    className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300"
-                  >
-                    <div className="flex flex-col lg:flex-row justify-between">
-                      <div>
-                        <h2 className="text-2xl font-bold text-gray-800">
-                          {company.companyName}
-                        </h2>
-
-                        <p className="text-gray-600 mt-2">💼 {company.role}</p>
-
-                        <p className="text-gray-500">📍 {company.location}</p>
-
-                        {company.notes && (
-                          <p className="mt-3 italic text-gray-500">
-                            {company.notes}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="mt-5 lg:mt-0">
-                        <span
-                          className={`px-4 py-2 rounded-full font-semibold ${statusColor(
-                            company.status,
-                          )}`}
-                        >
-                          {company.status}
-                        </span>
-                      </div>
-                    </div>
-                    {/* Resume Section */}
-
-                    <div className="mt-5 border-t pt-4">
-                      <label className="block font-semibold text-gray-700 mb-2">
-                        📄 Resume
-                      </label>
-
-                      {company.resume ? (
-                        <div className="flex items-center gap-4 mb-3 flex-wrap">
-                          <span className="text-green-600 font-medium">
-                            {company.resume}
-                          </span>
-
+              <div className="space-y-4">
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-800 tracking-tight">{company.name}</h3>
+                    <div className="flex gap-2 items-center text-xs text-gray-400 mt-1">
+                      <span>📍 {company.location || "Location Not Listed"}</span>
+                      {company.website && (
+                        <>
+                          <span>•</span>
                           <a
-                           href={`https://placement-readiness-tracker-7gt3.onrender.com/uploads/${company.resume}`}
+                            href={company.website}
                             target="_blank"
                             rel="noreferrer"
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm"
+                            className="text-indigo-600 hover:underline"
                           >
-                            Download
+                            Website link
                           </a>
-                        </div>
-                      ) : (
-                        <p className="text-gray-500 mb-3">No Resume Uploaded</p>
+                        </>
                       )}
-
-                      <input
-                        type="file"
-                        accept=".pdf"
-                        onChange={(e) => {
-                          if (e.target.files[0]) {
-                            handleResumeUpload(company._id, e.target.files[0]);
-                          }
-                        }}
-                        className="block w-full text-sm text-gray-600
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-lg file:border-0
-      file:bg-indigo-600 file:text-white
-      hover:file:bg-indigo-700"
-                      />
-                    </div>
-
-                    {/* Action Buttons */}
-
-                    <div className="flex gap-3 mt-6">
-                      <button
-                        onClick={() => handleEditCompany(company)}
-                        className="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() => handleDeleteCompany(company._id)}
-                        className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg"
-                      >
-                        Delete
-                      </button>
                     </div>
                   </div>
-                ))}
+
+                  <span
+                    className={`px-3 py-1 rounded-full text-[10px] font-extrabold uppercase border ${
+                      company.hiringStatus === "Hiring"
+                        ? "bg-green-50 border-green-200 text-green-600"
+                        : company.hiringStatus === "On Hold"
+                        ? "bg-yellow-50 border-yellow-200 text-yellow-600"
+                        : "bg-red-50 border-red-200 text-red-600"
+                    }`}
+                  >
+                    {company.hiringStatus}
+                  </span>
+                </div>
+
+                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line">
+                  {company.description || "No company summary profile provided."}
+                </p>
               </div>
 
-              {/* Pagination */}
-
-              {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-2 mt-10 flex-wrap">
+              {role !== "student" && (
+                <div className="flex gap-2.5 mt-6 pt-4 border-t border-gray-50 justify-end">
                   <button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
-                    }
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 rounded-lg bg-gray-300 disabled:opacity-50"
+                    onClick={() => handleEditClick(company)}
+                    className="px-4 py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 border border-yellow-200 font-bold rounded-xl text-xs cursor-pointer"
                   >
-                    Previous
+                    ✏️ Edit profile
                   </button>
-
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPage(index + 1)}
-                      className={`px-4 py-2 rounded-lg ${
-                        currentPage === index + 1
-                          ? "bg-blue-600 text-white"
-                          : "bg-white border"
-                      }`}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
-
                   <button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                    }
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 rounded-lg bg-gray-300 disabled:opacity-50"
+                    onClick={() => handleDeleteClick(company._id)}
+                    className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold rounded-xl text-xs cursor-pointer"
                   >
-                    Next
+                    🗑️ Delete
                   </button>
                 </div>
               )}
-            </>
-          )}
+            </div>
+          ))}
         </div>
-      </div>
-      <DeleteModal
-        isOpen={deleteModalOpen}
-        companyName={selectedCompany?.companyName}
-        onCancel={() => {
-          setDeleteModalOpen(false);
-          setSelectedCompany(null);
-        }}
-        onConfirm={confirmDelete}
-      />
-    </>
+      )}
+
+      {/* CRUD Form Modal */}
+      {showFormModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 animate-fadeIn">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+              {editingCompany ? "✏️ Edit Recruiter Details" : "🏢 Register Recruiter Profile"}
+            </h2>
+
+            <form onSubmit={handleSaveCompany} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Company Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Google, Microsoft"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Location</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Bangalore, CA"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Hiring Status</label>
+                  <select
+                    value={hiringStatus}
+                    onChange={(e) => setHiringStatus(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:outline-none"
+                  >
+                    <option value="Hiring">Hiring</option>
+                    <option value="Not Hiring">Not Hiring</option>
+                    <option value="On Hold">On Hold</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Website Link</label>
+                <input
+                  type="url"
+                  placeholder="e.g. https://google.com"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Recruiter summary profile</label>
+                <textarea
+                  placeholder="Describe company operations, product verticals, or hiring targets..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows="4"
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none resize-none"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t">
+                <button
+                  type="button"
+                  onClick={closeFormModal}
+                  className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
+                >
+                  Save Recruiter Profile
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

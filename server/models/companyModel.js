@@ -2,53 +2,32 @@ const mongoose = require("mongoose");
 
 const companySchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-
-    companyName: {
+    name: {
       type: String,
       required: true,
       trim: true,
     },
-
-    role: {
+    description: {
       type: String,
-      required: true,
       trim: true,
     },
-
+    website: {
+      type: String,
+      trim: true,
+    },
     location: {
       type: String,
       trim: true,
     },
-
-    jobLink: {
+    hiringStatus: {
       type: String,
-      trim: true,
+      enum: ["Hiring", "Not Hiring", "On Hold"],
+      default: "Hiring",
     },
-
-    applicationDate: {
-      type: Date,
-    },
-
-    status: {
-      type: String,
-      enum: ["Applied", "Interview", "Selected", "Rejected"],
-      default: "Applied",
-    },
-
-    notes: {
-      type: String,
-      trim: true,
-    },
-
-    // Resume file name
-    resume: {
-      type: String,
-      default: "",
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {
@@ -56,4 +35,4 @@ const companySchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Company", companySchema);
+module.exports = mongoose.models.Company || mongoose.model("Company", companySchema);

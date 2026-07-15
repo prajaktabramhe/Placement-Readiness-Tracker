@@ -1,68 +1,49 @@
 const Company = require("../models/companyModel");
 
-// Add Company
+// Add Company (Admin/Mentor only)
 const addCompany = async (req, res) => {
   try {
-    const {
-      companyName,
-      role,
-      location,
-      jobLink,
-      applicationDate,
-      status,
-      notes,
-    } = req.body;
+    const { name, description, website, location, hiringStatus } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ success: false, message: "Company name is required" });
+    }
 
     const company = await Company.create({
-      user: req.user.id,
-      companyName,
-      role,
+      name,
+      description,
+      website,
       location,
-      jobLink,
-      applicationDate,
-      status,
-      notes,
+      hiringStatus,
+      user: req.user.id,
     });
 
     res.status(201).json({
       success: true,
-      message: "Company added successfully",
+      message: "Company profile created successfully",
       company,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Get All Companies
 // Get All Companies (with Search & Filter)
 const getCompanies = async (req, res) => {
   try {
-    const { search, status } = req.query;
+    const { search, hiringStatus } = req.query;
 
-    let query = {
-      user: req.user.id,
-    };
+    let query = {};
 
-    // Search by company name or role
     if (search) {
-      query.$or = [
-        { companyName: { $regex: search, $options: "i" } },
-        { role: { $regex: search, $options: "i" } },
-      ];
+      query.name = { $regex: search, $options: "i" };
     }
 
-    // Filter by status
-    if (status) {
-      query.status = status;
+    if (hiringStatus && hiringStatus !== "All") {
+      query.hiringStatus = hiringStatus;
     }
 
-    const companies = await Company.find(query).sort({
-      createdAt: -1,
-    });
+    const companies = await Company.find(query).sort({ name: 1 });
 
     res.status(200).json({
       success: true,
@@ -70,25 +51,32 @@ const getCompanies = async (req, res) => {
       companies,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-const updateCompany = async (req, res) => {
+// Get Single Company
+const getCompanyById = async (req, res) => {
   try {
-    const company = await Company.findOne({
-      _id: req.params.id,
-      user: req.user.id,
-    });
+    const company = await Company.findById(req.params.id);
 
     if (!company) {
-      return res.status(404).json({
-        success: false,
-        message: "Company not found",
-      });
+      return res.status(404).json({ success: false, message: "Company not found" });
+    }
+
+    res.status(200).json({ success: true, company });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Update Company (Admin/Mentor only)
+const updateCompany = async (req, res) => {
+  try {
+    const company = await Company.findById(req.params.id);
+
+    if (!company) {
+      return res.status(404).json({ success: false, message: "Company not found" });
     }
 
     const updatedCompany = await Company.findByIdAndUpdate(
@@ -106,27 +94,17 @@ const updateCompany = async (req, res) => {
       company: updatedCompany,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-
-// Delete Company
+// Delete Company (Admin/Mentor only)
 const deleteCompany = async (req, res) => {
   try {
-    const company = await Company.findOne({
-      _id: req.params.id,
-      user: req.user.id,
-    });
+    const company = await Company.findById(req.params.id);
 
     if (!company) {
-      return res.status(404).json({
-        success: false,
-        message: "Company not found",
-      });
+      return res.status(404).json({ success: false, message: "Company not found" });
     }
 
     await Company.findByIdAndDelete(req.params.id);
@@ -136,15 +114,14 @@ const deleteCompany = async (req, res) => {
       message: "Company deleted successfully",
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
+
 module.exports = {
   addCompany,
   getCompanies,
+  getCompanyById,
   updateCompany,
   deleteCompany,
 };

@@ -3,11 +3,17 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import Jobs from "./pages/Jobs";
 import Companies from "./pages/Companies";
-import Admin from "./pages/Admin";
+import Applications from "./pages/Applications";
+import Interviews from "./pages/Interviews";
+import AdminUsers from "./pages/AdminUsers";
+import Sessions from "./pages/Sessions";
 import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -23,44 +29,107 @@ function App() {
       {/* Public Routes */}
       <Route
         path="/login"
-        element={
-          token ? <Navigate to="/dashboard" replace /> : <Login />
-        }
+        element={token ? <Navigate to="/dashboard" replace /> : <Login />}
       />
 
       <Route
         path="/register"
-        element={
-          token ? <Navigate to="/dashboard" replace /> : <Register />
-        }
+        element={token ? <Navigate to="/dashboard" replace /> : <Register />}
       />
 
-      {/* Protected Dashboard */}
+      {/* Protected Dashboards */}
       <Route
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
           </ProtectedRoute>
         }
       />
 
-      {/* Protected Companies */}
+      {/* Protected Profile */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Profile />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Protected Job Openings */}
+      <Route
+        path="/jobs"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Jobs />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Protected Company Registry */}
       <Route
         path="/companies"
         element={
           <ProtectedRoute>
-            <Companies />
+            <DashboardLayout>
+              <Companies />
+            </DashboardLayout>
           </ProtectedRoute>
         }
       />
 
-      {/* Admin Only */}
+      {/* Protected Application Tracking */}
+      <Route
+        path="/applications"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Applications />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Protected Interview Schedules */}
+      <Route
+        path="/interviews"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Interviews />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Protected Mentorship Sessions */}
+      <Route
+        path="/sessions"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Sessions />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+
+      {/* Admin Only Users Panel */}
       <Route
         path="/admin"
         element={
           <ProtectedRoute role="admin">
-            <Admin />
+            <DashboardLayout>
+              <AdminUsers />
+            </DashboardLayout>
           </ProtectedRoute>
         }
       />

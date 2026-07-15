@@ -1,20 +1,24 @@
 const express = require("express");
-
 const router = express.Router();
 
 const authMiddleware = require("../middleware/authMiddleware");
+const mentorOrAdminMiddleware = require("../middleware/mentorOrAdminMiddleware");
 
 const {
   addCompany,
   getCompanies,
+  getCompanyById,
   updateCompany,
   deleteCompany,
 } = require("../controllers/companyController");
 
-// Add Company
-router.post("/", authMiddleware, addCompany);
-// Get All Companies
+// Public (within authenticated platform) view routes
 router.get("/", authMiddleware, getCompanies);
-router.put("/:id", authMiddleware, updateCompany);
-router.delete("/:id", authMiddleware, deleteCompany);
+router.get("/:id", authMiddleware, getCompanyById);
+
+// Admin/Mentor management routes
+router.post("/", authMiddleware, mentorOrAdminMiddleware, addCompany);
+router.put("/:id", authMiddleware, mentorOrAdminMiddleware, updateCompany);
+router.delete("/:id", authMiddleware, mentorOrAdminMiddleware, deleteCompany);
+
 module.exports = router;
