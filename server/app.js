@@ -6,6 +6,8 @@ const path = require("path");
 // Middleware
 const allowedOrigins = [
   "https://placement-readiness-tracker-pi.vercel.app",
+  "https://placement-readiness-tracker-pk211sdqa.vercel.app",
+
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:5175",
@@ -13,7 +15,7 @@ const allowedOrigins = [
   "http://127.0.0.1:5173",
   "http://127.0.0.1:5174",
   "http://localhost:5000",
-  "http://127.0.0.1:5000"
+  "http://127.0.0.1:5000",
 ];
 
 app.use(
